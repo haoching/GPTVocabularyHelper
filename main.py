@@ -3,18 +3,36 @@ import openai
 from os import environ
 import os
 from dotenv import load_dotenv
+from PyHackMD import API
 
 load_dotenv()
-openai.api_key = environ["TOKEN"]
 
-voc = input("vocaublary")
+openai.api_key = environ["TOKEN"]
+hackmd_api_key = environ["hackmd"]
+noteID = environ["noteID"]
+
+def updateHackMD(string:str):
+  api = API(hackmd_api_key)
+  data = api.update_note(noteID,content=string)
+
+voc = input("vocaublary: ")
 
 comp = openai.ChatCompletion.create(
   model="gpt-3.5-turbo",
   messages=[
-        {"role": "user", "content": "請說出接下來獎的單字繁中翻譯、詞性並用原文造句造句"},
+        {"role": "user", "content": "請說出接下來獎的單字繁中翻譯、詞性並用原文造一個句子"},
         {"role": "user", "content": voc}
     ]
 )
 
-print(comp.choices[0].message.content)
+fp = open(r'note.md',"a",encoding="utf-8")
+
+fp.write(":::spoiler "+voc+'\n'+comp.choices[0].message.content+"\n:::\n")
+
+fp.close()
+
+fp = open(r'note.md',"r",encoding="utf-8")
+
+updateHackMD(fp.read())
+
+fp.close()
