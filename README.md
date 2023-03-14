@@ -8,11 +8,11 @@ using gpt 3.5 help memorizing vocabulary
 ```bash
 git clone https://github.com/haoching/GPTVocabularyHelper.git
 ```
-1. docker build
+4. docker build
 ```bash
 sudo docker build -t discord-bot .
 ```
-1. run
+5. run
 ```bash
 sudo docker run -d discord-bot
 ```
