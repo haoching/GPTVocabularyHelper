@@ -13,7 +13,7 @@ noteID = environ["noteID"]
 class Hackmd:
     api_key = environ["hackmd"]
     def update():
-        fp = open(r'note.md',"r+",encoding="utf-8")
+        fp = open(r'./note.md',"r+",encoding="utf-8")
         api = API(Hackmd.api_key)
         data = api.update_note(noteID,content=fp.read())
         fp.close()
@@ -25,7 +25,7 @@ class GPT:
                 {"role": "user", "content": "列出"+vocabulary+"的繁中翻譯、詞性並用英文造一個句子"}
             ]
         )
-        fp = open(r'note.md',"a+",encoding="utf-8")
+        fp = open(r'./note.md',"a+",encoding="utf-8")
         fp.write(":::spoiler "+vocabulary+comp.choices[0].message.content+"\n:::\n")
         fp.close()
 
