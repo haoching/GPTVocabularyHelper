@@ -59,8 +59,8 @@ async def add(interaction: nextcord.Interaction,vocabulary : str):
     else:
         embedVar.add_field(name=vocabulary, value=r.json()[0]["title"], inline=False)
     msg = await interaction.send(embed=embedVar)
-    new_embed = embedVar
-    embedVar.add_field(name='gpt', value=GPT.Generate(vocabulary), inline=False)
+    new_embed = nextcord.Embed(title="note", description="complete", color=0x7FFFD4,url = 'https://hackmd.io/y7B_MzEoQfKAqHbhQ9GOwA?view')
+    embedVar.add_field(name='gpt response', value=GPT.Generate(vocabulary), inline=False)
     Hackmd.update()
     await msg.edit(embed=new_embed)
 
