@@ -45,7 +45,7 @@ async def on_ready():
 
 @bot.slash_command(description="update hackmd api", guild_ids=None)
 async def update(interaction: nextcord.Interaction):
-    embedVar = nextcord.Embed(title="note", description="please wait", color=0x7FFFD4,url = 'https://hackmd.io/y7B_MzEoQfKAqHbhQ9GOwA?view')
+    embedVar = nextcord.Embed(title="note", description="please wait...", color=0x7FFFD4,url = 'https://hackmd.io/y7B_MzEoQfKAqHbhQ9GOwA?view')
     msg = await interaction.send(embed=embedVar)
     Hackmd.update()
     embedVar = nextcord.Embed(title="note", description="update complete", color=0x7FFFD4,url = 'https://hackmd.io/y7B_MzEoQfKAqHbhQ9GOwA?view')
@@ -59,8 +59,12 @@ async def add(interaction: nextcord.Interaction,vocabulary : str):
     else:
         embedVar.add_field(name=vocabulary, value=r.json()[0]["title"], inline=False)
     msg = await interaction.send(embed=embedVar)
-    new_embed = nextcord.Embed(title="note", description="complete", color=0x7FFFD4,url = 'https://hackmd.io/y7B_MzEoQfKAqHbhQ9GOwA?view')
-    embedVar.add_field(name='gpt response', value=GPT.Generate(vocabulary), inline=False)
+    new_embed = nextcord.Embed(title="note", description="complete!", color=0x7FFFD4,url = 'https://hackmd.io/y7B_MzEoQfKAqHbhQ9GOwA?view')
+    if r.status_code == 200:
+        new_embed.add_field(name=vocabulary, value=r.json()[0]['phonetic'], inline=False)
+    else:
+        new_embed.add_field(name=vocabulary, value=r.json()[0]["title"], inline=False)
+    new_embed.add_field(name='gpt response', value=GPT.Generate(vocabulary), inline=False)
     Hackmd.update()
     await msg.edit(embed=new_embed)
 
